@@ -21,6 +21,7 @@ PoleGroup.prototype.addPole = function(x) {
   while(x < 2 * game.width) {
     this.count++;
     var pole = new Pole(x, game.rnd.between(250, 380));
+    pole.scale.x = game.rnd.between(1.0,2.0);
     game.add.existing(pole);
     pole.anchor.set(0.5, 0);
     this.add(pole);
