@@ -59,6 +59,7 @@ function updateScore(){
 function checkLanding(player, pole){
   if(pole.y >= player.y + player.height / 2){
     var dist = player.x - pole.x;
+    
     player.body.velocity.x = 0;
 
     if(player.jumping && Math.abs(dist) > 20) {
