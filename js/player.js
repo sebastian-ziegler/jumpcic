@@ -9,10 +9,16 @@ var Player = function(x, y) {
   game.physics.arcade.enable(this);
   this.body.gravity.y = this.gravity;
   game.add.existing(this);
+  //this.body.collideWorldBounds = true;
 };
 
 Player.prototype = Object.create(Phaser.Sprite.prototype);
 Player.prototype.constructor = Player;
+
+Player.prototype.update = function() {
+  console.log(this.x);
+  if(this.x < 15) this.x = 15;
+};
 
 Player.prototype.prepareToJump = function() {
   if(this.body.velocity.y == 0) {
@@ -36,6 +42,7 @@ Player.prototype.jump = function() {
   this.jumping = true;
   this.powerTween.stop();
   game.add.tween(this).to({angle: this.angle + 90}, 250, Phaser.Easing.Linear.None, true).start();
+  game.add.tween(this).to({x: 80}, 750, Phaser.Easing.Linear.None).start();
   game.input.onUp.remove(this.jump, this);
 };
 

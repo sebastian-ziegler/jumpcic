@@ -14,7 +14,7 @@ Pole.prototype.update = function() {
   if(player.jumping && !player.falling)
     this.body.velocity.x = player.jumpPower;
   else
-    this.body.velocity.x = 0
+    this.body.velocity.x = -20;
 
   if(this.x < -this.width) {
     this.destroy();
