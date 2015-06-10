@@ -11,6 +11,11 @@ Pole.prototype = Object.create(Phaser.Sprite.prototype);
 Pole.prototype.constructor = Pole;
 
 Pole.prototype.update = function() {
+  console.log(this.scale.x)
+  if(this.scale.x == 2){
+    game.add.tween(this.scale).to( { x: 1}, 2000, Phaser.Easing.Linear.None, true, 20, 1000, true);
+  }
+
   if(player.jumping && !player.falling)
     this.body.velocity.x = player.jumpPower;
   else

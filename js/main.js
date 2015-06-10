@@ -8,6 +8,7 @@ var scoreText;
 var topScore;
 var player;
 var poleGroup;
+var platformGroup;
 
 var game = new Phaser.Game(Math.floor(480*gameRatio), 480, Phaser.CANVAS, '', {
   preload: preload,
@@ -21,6 +22,7 @@ function preload() {
   game.load.image("player", "assets/img/ninja.png"); 
   game.load.image("pole", "assets/img/pole.png");
   game.load.image("powerbar", "assets/img/powerbar.png");
+  game.load.image("platform", "assets/img/platform.png");
 }
 
 function create() {
@@ -35,8 +37,11 @@ function create() {
 
   game.physics.startSystem(Phaser.Physics.ARCADE);
 
-  poleGroup = new PoleGroup();
-  poleGroup.addPole(80);
+  /*poleGroup = new PoleGroup();
+  poleGroup.addPole(80);*/
+
+  platformGroup = new PlatformGroup();
+  platformGroup.addPlatform(80);
 
   player = new Player(80, 0);
 
@@ -45,6 +50,7 @@ function create() {
 
 function update() {
   game.physics.arcade.collide(player, poleGroup, checkLanding);
+  game.physics.arcade.collide(player, platformGroup, checkLanding);
   
   if(player.die(game.height)) {
     localStorage.setItem("score", Math.max(score,topScore));  
@@ -54,15 +60,21 @@ function update() {
 
 function updateScore(){
   scoreText.text = "Score: " + score + "\nBest: " + topScore; 
-}     
+}
+
+function removeTweens(){
+  player.tweens.move.stop();
+}
 
 function checkLanding(player, pole){
   if(pole.y >= player.y + player.height / 2){
     var dist = player.x - pole.x;
-    
+    player.falling = false;
+
     player.body.velocity.x = 0;
 
-    if(player.jumping && Math.abs(dist) > 20) {
+    if(player.jumping && Math.abs(dist) > 45) {
+      removeTweens();
       player.body.velocity.x = dist * 2;
       player.body.velocity.y = -200;
     }
@@ -80,8 +92,9 @@ function checkLanding(player, pole){
     }
   }
   else {
+    removeTweens();
     player.falling = true;
-    poleGroup.forEach(function(item) {
+    platformGroup.forEach(function(item) {
       item.body.velocity.x = 0;     
     });
   }     
