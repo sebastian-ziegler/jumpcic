@@ -20,7 +20,7 @@ PlatformGroup.prototype.create = function() {
 PlatformGroup.prototype.addPlatform = function(x) {
   while(x < 2 * game.width) {
     this.count++;
-    var platform = new Platform(x, game.rnd.between(100, 400));
+    var platform = new Platform(x, game.rnd.between(200, 400));
     game.add.existing(platform);
     platform.anchor.set(0.5, 0.5);
     this.add(platform);

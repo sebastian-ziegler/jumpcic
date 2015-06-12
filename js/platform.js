@@ -11,7 +11,6 @@ Platform.prototype = Object.create(Phaser.Sprite.prototype);
 Platform.prototype.constructor = Platform;
 
 Platform.prototype.update = function() {
-  console.log(this.scale.x)
 
   if(player.jumping && !player.falling)
     this.body.velocity.x = player.jumpPower;

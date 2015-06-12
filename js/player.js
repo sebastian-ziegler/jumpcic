@@ -9,6 +9,7 @@ var Player = function(x, y) {
   game.physics.arcade.enable(this);
   this.body.gravity.y = this.gravity;
   game.add.existing(this);
+  this.jumpPower = 0;
   //this.body.collideWorldBounds = true;
   this.tweens = {};
 };
@@ -27,6 +28,7 @@ Player.prototype.prepareToJump = function() {
     this.tweens.powerTween = game.add.tween(this.powerBar).to({
       width: 100
     }, 1000, "Linear", true);
+    this.jumpPower = -this.powerBar.width * 3 - 100;
     
     game.input.onDown.remove(this.prepareToJump, this);
     game.input.onUp.add(this.jump, this);
@@ -39,6 +41,7 @@ Player.prototype.jump = function() {
   this.powerBar.destroy();
   game.tweens.removeAll();
   this.body.velocity.y = this.jumpPower * 2;
+  console.log(this.jumpPower);
   this.jumping = true;
   this.tweens.powerTween.stop();
   game.add.tween(this).to({angle: this.angle + 90}, 250, Phaser.Easing.Linear.None, true).start();
